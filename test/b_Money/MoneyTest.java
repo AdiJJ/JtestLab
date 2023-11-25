@@ -23,6 +23,9 @@ public class MoneyTest {
 		SEKn100 = new Money(-10000, SEK);
 	}
 
+	/**
+	 *Test of the getter function, returning the Money amount
+	 */
 	@Test
 	public void testGetAmount() {
 		/**
@@ -37,6 +40,9 @@ public class MoneyTest {
 		assertEquals(-10000,SEKn100.getAmount(),0);
 	}
 
+	/**
+	 *Test of the getter function, returning the Money currency
+	 */
 	@Test
 	public void testGetCurrency() {
 		/**
@@ -53,6 +59,9 @@ public class MoneyTest {
 		assertNotSame(SEK,EUR10.getCurrency());
 	}
 
+	/**
+	 *Test if the method returns a correct string
+	 */
 	@Test
 	public void testToString() {
 		/**
@@ -64,6 +73,9 @@ public class MoneyTest {
 		assertEquals("-100 SEK",SEKn100.toString());
 	}
 
+	/**
+	 *Test if the method transforms the money correctly into a universal value
+	 */
 	@Test
 	public void testGlobalValue() {
 		/**
@@ -75,6 +87,9 @@ public class MoneyTest {
 		assertEquals(-1500,SEKn100.universalValue(),0);
 	}
 
+	/**
+	 *Test if a method checking if amounts of two different Money objects works correctly
+	 */
 	@Test
 	public void testEqualsMoney() {
 		/**
@@ -88,6 +103,9 @@ public class MoneyTest {
 		assertFalse("false",EUR20.equals(SEKn100));
 	}
 
+	/**
+	 *Test if adding money method works correctly
+	 */
 	@Test
 	public void testAdd() {
 		/**
@@ -98,6 +116,9 @@ public class MoneyTest {
 		assertEquals(20000,SEK200.add(EUR0).getAmount(),0);
 	}
 
+	/**
+	 *Test if subdividing money method works correctly
+	 */
 	@Test
 	public void testSub() {
 		/**
@@ -108,6 +129,9 @@ public class MoneyTest {
 		assertEquals(20000,SEK200.sub(EUR0).getAmount(),0);
 	}
 
+	/**
+	 *Test method checking if amount of money is zero works correctly
+	 */
 	@Test
 	public void testIsZero() {
 		/**
@@ -119,6 +143,9 @@ public class MoneyTest {
 		assertTrue("true",EUR0.isZero());
 	}
 
+	/**
+	 *Testing if Money negating method works correctly
+	 */
 	@Test
 	public void testNegate() {
 		/**
@@ -129,6 +156,9 @@ public class MoneyTest {
 		assertEquals("0 SEK",SEK0.negate().toString());
 	}
 
+	/**
+	 *Test if comparing Money method works correctly
+	 */
 	@Test
 	public void testCompareTo() {
 		/**

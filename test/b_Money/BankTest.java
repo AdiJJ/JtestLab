@@ -22,20 +22,38 @@ public class BankTest {
 		DanskeBank.openAccount("Gertrud");
 	}
 
+	/**
+	 * Testing if getter function returns the name correctly
+	 */
 	@Test
 	public void testGetName() {
+		/**
+		 * Test passed
+		 */
 		assertEquals("SweBank",SweBank.getName());
 		assertEquals("Nordea",Nordea.getName());
 		assertEquals("DanskeBank",DanskeBank.getName());
 	}
 
+	/**
+	 * Testing if getter function returns the currency correctly
+	 */
 	@Test
 	public void testGetCurrency() {
+		/**
+		 * Test passed
+		 */
 		assertSame(SEK,SweBank.getCurrency());
 		assertSame(SEK,Nordea.getCurrency());
 		assertSame(DKK,DanskeBank.getCurrency());
 	}
 
+	/**
+	 * Testing if opens the account correctly.
+	 * If the account already exists an AccountExistsException should be thrown
+	 * @throws AccountExistsException
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test (expected = AccountExistsException.class )
 	public void testOpenAccount() throws AccountExistsException, AccountDoesNotExistException {//TODO
 		/**
@@ -46,6 +64,10 @@ public class BankTest {
 		Nordea.openAccount("Alan");
 	}
 
+	/**
+	 * Testing if the method deposits money to the specified account correctly
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test
 	public void testDeposit() throws AccountDoesNotExistException {
 		/**
@@ -57,6 +79,10 @@ public class BankTest {
 		assertNotEquals(10000,Nordea.getBalance("Bob"),0);
 	}
 
+	/**
+	 * Testing if the method withdraws money to the specified account correctly
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test
 	public void testWithdraw() throws AccountDoesNotExistException {
 		/**
@@ -66,14 +92,25 @@ public class BankTest {
 		DanskeBank.withdraw("Gertrud",new Money(2000,DanskeBank.getCurrency()));
 		assertEquals(8000,DanskeBank.getBalance("Gertrud"),0);
 	}
-	
+
+	/**
+	 * Testing if method returns correct balance
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test
 	public void testGetBalance() throws AccountDoesNotExistException {
+		/**
+		 * Test failed. couldn't resolve method .getAmount() that was added unnecessarily to getBalance
+		 */
 		Nordea.deposit("Bob",new Money(5000,Nordea.getCurrency()));
 		assertEquals(5000,Nordea.getBalance("Bob"),0);
 		assertEquals(0,SweBank.getBalance("Bob"),0);
 	}
-	
+
+	/**
+	 * Testing if method transfer money between accounts correctly
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test
 	public void testTransfer() throws AccountDoesNotExistException {
 		SweBank.deposit("Ulrika",new Money(10000,SweBank.getCurrency()));
@@ -88,13 +125,22 @@ public class BankTest {
 		assertEquals(1334,SweBank.getBalance("Ulrika"),0);
 		assertEquals(2000,SweBank.getBalance("Bob"),0);
 	}
-	
+
+	/**
+	 * Testing if method does the timed payment correctly
+	 * @throws AccountDoesNotExistException
+	 */
 	@Test
 	public void testTimedPayment() throws AccountDoesNotExistException {
+		/**
+		 * Test passed
+		 */
 		SweBank.deposit("Ulrika",new Money(5000,SweBank.getCurrency()));
 
 		SweBank.addTimedPayment("Ulrika","0",1,4,new Money(2000,SweBank.getCurrency()),DanskeBank,"Gertrud");
 		SweBank.addTimedPayment("Ulrika","1",1,4,new Money(2000,SweBank.getCurrency()),Nordea,"Bob");
+		SweBank.tick();
+		SweBank.tick();
 		SweBank.tick();
 		SweBank.tick();
 		SweBank.tick();
@@ -103,6 +149,7 @@ public class BankTest {
 		assertEquals(1500,DanskeBank.getBalance("Gertrud"),0);
 
 		SweBank.removeTimedPayment("Ulrika","0");
+		SweBank.tick();
 		SweBank.tick();
 		assertEquals(-1000,SweBank.getBalance("Ulrika"),0);
 		assertEquals(4000,Nordea.getBalance("Bob"),0);

@@ -16,6 +16,9 @@ public class CurrencyTest {
 		EUR = new Currency("EUR", 1.5);
 	}
 
+	/**
+	 * Test if getter function returns the correct name of the currency
+	 */
 	@Test
 	public void testGetName() {
 		/**
@@ -25,7 +28,10 @@ public class CurrencyTest {
 		assertEquals("DKK",DKK.getName());
 		assertEquals("EUR",EUR.getName());
 	}
-	
+
+	/**
+	 * Test if getter function returns the correct rate of the currency
+	 */
 	@Test
 	public void testGetRate() {
 		/**
@@ -35,7 +41,9 @@ public class CurrencyTest {
 		assertEquals(0.20,DKK.getRate(),0);
 		assertEquals(1.5,EUR.getRate(),0);
 	}
-	
+	/**
+	 * Test if setter function sets the rate for the currency correctly
+	 */
 	@Test
 	public void testSetRate() {
 		/**
@@ -48,7 +56,9 @@ public class CurrencyTest {
 		EUR.setRate(1.6);
 		assertEquals(1.6,EUR.getRate(),0);
 	}
-	
+	/**
+	 * Test if the method converts the amount of cash of this currency to a global value correctly
+	 */
 	@Test
 	public void testGlobalValue() {
 		/**
@@ -58,7 +68,10 @@ public class CurrencyTest {
 		assertEquals(69,DKK.universalValue(345),0);
 		assertEquals(517,EUR.universalValue(345),0);
 	}
-	
+
+	/**
+	 * Test if the method converts the amount of cash to this currency correctly
+	 */
 	@Test
 	public void testValueInThisCurrency() {
 		/**

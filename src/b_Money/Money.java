@@ -38,7 +38,7 @@ public class Money implements Comparable {
 	 */
 	public String toString() {
 		//the amount will be divided by 100 to represent it correctly
-		return ""+(this.amount/100)+" "+this.currency.getName();
+		return (this.amount/100)+" "+this.currency.getName();
 	}
 	
 	/**

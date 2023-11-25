@@ -18,7 +18,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Get the name of this bank
+	 * Method getting the name of this bank
 	 * @return Name of this bank
 	 */
 	public String getName() {
@@ -26,7 +26,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Get the Currency of this bank
+	 * Method getting the Currency of this bank
 	 * @return The Currency of this bank
 	 */
 	public Currency getCurrency() {
@@ -34,7 +34,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Open an account at this bank.
+	 * Open an account at this bank. Method puts a new account data in a hashtable, distinguished by the account id
 	 * @param accountid The ID of the account
 	 * @throws AccountExistsException If the account already exists
 	 */
@@ -54,7 +54,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Deposit money to an account
+	 * Deposit money to an account. Method adds Money (in this bank's currency) to the Account specified by the id in parameters.
 	 * @param accountid Account to deposit to
 	 * @param money Money to deposit.
 	 * @throws AccountDoesNotExistException If the account does not exist
@@ -74,7 +74,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Withdraw money from an account
+	 * Withdraw money from an account.Method subdivides Money (in this bank's currency) from the Account specified by the id in parameters.
 	 * @param accountid Account to withdraw from
 	 * @param money Money to withdraw
 	 * @throws AccountDoesNotExistException If the account does not exist
@@ -94,7 +94,7 @@ public class Bank {
 	}
 	
 	/**
-	 * Get the balance of an account
+	 * Get the balance of an account, which is amount of money currently on the account
 	 * @param accountid Account to get balance from
 	 * @return Balance of the account
 	 * @throws AccountDoesNotExistException If the account does not exist
@@ -104,12 +104,17 @@ public class Bank {
 			throw new AccountDoesNotExistException();
 		}
 		else {
-			return accountlist.get(accountid).getBalance().getAmount();
+			/**
+			 * .getAmount() is unnecessary and creates an error as the getBalance function already returns the amount of Money
+			 * not the Money itself.
+			 */
+			return accountlist.get(accountid).getBalance();
 		}
 	}
 
 	/**
-	 * Transfer money between two accounts
+	 * Transfer money between two accounts. Adds money to the account specified by toaccount and tobank id
+	 * and removes this amount from the account specified by fromaccount id
 	 * @param fromaccount Id of account to deduct from in this Bank
 	 * @param tobank Bank where receiving account resides
 	 * @param toaccount Id of receiving account
@@ -127,7 +132,8 @@ public class Bank {
 	}
 
 	/**
-	 * Transfer money between two accounts on the same bank
+	 * Transfer money between two accounts on the same bank. Adds money to the account specified by toaccount id
+	 * and removes this amount from the account specified by fromaccount id
 	 * @param fromaccount Id of account to deduct from
 	 * @param toaccount Id of receiving account
 	 * @param amount Amount of Money to transfer
@@ -136,14 +142,14 @@ public class Bank {
 	public void transfer(String fromaccount, String toaccount, Money amount) throws AccountDoesNotExistException {
 		/**
 		 * The method transfers money from the same account to the same account instead of between two different
-		 * The balance in the Test stayed the same
+		 * The balance in the Test stayed the same. This is because the parameters where set up incorrectly.
 		 * fromaccount->toaccount
 		 */
 		transfer(fromaccount, this, toaccount, amount);
 	}
 
 	/**
-	 * Add a timed payment
+	 * Add a timed payment to the Accounts timedpayements hashtable
 	 * @param accountid Id of account to deduct from in this Bank
 	 * @param payid Id of timed payment
 	 * @param interval Number of ticks between payments
@@ -156,9 +162,9 @@ public class Bank {
 		Account account = accountlist.get(accountid);
 		account.addTimedPayment(payid, interval, next, amount, tobank, toaccount);
 	}
-	
+
 	/**
-	 * Remove a timed payment
+	 * Remove a timed payment from the Accounts timedpayements hashtable
 	 * @param accountid Id of account to remove timed payment from
 	 * @param id Id of timed payment
 	 */
