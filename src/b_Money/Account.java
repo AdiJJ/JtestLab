@@ -19,9 +19,17 @@ public class Account {
 	 * @param tobank Bank where receiving account resides
 	 * @param toaccount Id of receiving account
 	 */
-	public void addTimedPayment(String id, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) {
-		TimedPayment tp = new TimedPayment(interval, next, amount, this, tobank, toaccount);
-		timedpayments.put(id, tp);
+	public void addTimedPayment(String id, Integer interval, Integer next, Money amount, Bank tobank, String toaccount){
+		/**
+		 * A timedpayment validation has been added, so that there won't be two timedpayments of the same id
+		 */
+		if(timedPaymentExists(id)){
+			System.err.println("This timed payment already exists");
+		}
+		else{
+			TimedPayment tp = new TimedPayment(interval, next, amount, this, tobank, toaccount);
+			timedpayments.put(id, tp);
+		}
 	}
 	
 	/**
@@ -29,7 +37,15 @@ public class Account {
 	 * @param id Id of timed payment to remove
 	 */
 	public void removeTimedPayment(String id) {
-		timedpayments.remove(id);
+		/**
+		 * A timedpayment validation has been added, so that it makes sure that the timed payment exists before removing it
+		 */
+		if(!timedPaymentExists(id)){
+			System.err.println("This timed payment doesn't exists");
+		}
+		else {
+			timedpayments.remove(id);
+		}
 	}
 	
 	/**

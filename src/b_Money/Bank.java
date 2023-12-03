@@ -125,6 +125,15 @@ public class Bank {
 		if (!accountlist.containsKey(fromaccount) || !tobank.accountlist.containsKey(toaccount)) {
 			throw new AccountDoesNotExistException();
 		}
+		/**
+		 * Two validations added, to make sure that the transfers will make sense.
+		 */
+		else if(accountlist.get(fromaccount)==accountlist.get(toaccount)){
+			System.err.println("Can't transfer money between two accounts that are the same");
+		}
+		else if(amount.getAmount()==0){
+			System.err.println("Can't transfer 0 money between accounts");
+		}
 		else {
 			accountlist.get(fromaccount).withdraw(amount);
 			tobank.accountlist.get(toaccount).deposit(amount);
@@ -158,9 +167,17 @@ public class Bank {
 	 * @param tobank Bank where receiving account resides
 	 * @param toaccount Id of receiving account
 	 */
-	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) {
-		Account account = accountlist.get(accountid);
-		account.addTimedPayment(payid, interval, next, amount, tobank, toaccount);
+	public void addTimedPayment(String accountid, String payid, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) throws AccountDoesNotExistException {
+		/**
+		 * the method doesn't validate if the account already exists...
+		 */
+		if(!accountlist.containsKey(accountid)){
+			throw new AccountDoesNotExistException();
+		}
+		else {
+			Account account = accountlist.get(accountid);
+			account.addTimedPayment(payid, interval, next, amount, tobank, toaccount);
+		}
 	}
 
 	/**
@@ -168,9 +185,17 @@ public class Bank {
 	 * @param accountid Id of account to remove timed payment from
 	 * @param id Id of timed payment
 	 */
-	public void removeTimedPayment(String accountid, String id) {
-		Account account = accountlist.get(accountid);
-		account.removeTimedPayment(id);
+	public void removeTimedPayment(String accountid, String id) throws AccountDoesNotExistException {
+		/**
+		 * the method doesn't validate if the account already exists...
+		 */
+		if(!accountlist.containsKey(accountid)){
+			throw new AccountDoesNotExistException();
+		}
+		else {
+			Account account = accountlist.get(accountid);
+			account.removeTimedPayment(id);
+		}
 	}
 	
 	/**

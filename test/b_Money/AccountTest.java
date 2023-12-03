@@ -29,14 +29,19 @@ public class AccountTest {
 	 * Testing if adding, removing and checking if timed payment work correctly
 	 */
 	@Test
-	public void testAddRemoveTimedPayment() {
+	public void testAddRemoveTimedPayment(){
+		testAccount.addTimedPayment("0",1,4,new Money(5000,SEK),SweBank,"Alice");
 		/**
-		 * Test passed
+		 * Error should be shown here as the timedPayment with this id already exists
 		 */
 		testAccount.addTimedPayment("0",1,4,new Money(5000,SEK),SweBank,"Alice");
 		assertTrue(testAccount.timedPaymentExists("0"));
 		testAccount.removeTimedPayment("0");
 		assertFalse(testAccount.timedPaymentExists("0"));
+		/**
+		 * Error should be shown here as the timedPayment with this id does not exist
+		 */
+		testAccount.removeTimedPayment("0");
 	}
 
 	/**
@@ -44,7 +49,7 @@ public class AccountTest {
 	 * @throws AccountDoesNotExistException
 	 */
 	@Test
-	public void testTimedPayment() throws AccountDoesNotExistException {
+	public void testTimedPayment() throws AccountDoesNotExistException{
 		/**
 		 * Test failed. The payment was made too many times after the specified amount of ticks.
 		 */

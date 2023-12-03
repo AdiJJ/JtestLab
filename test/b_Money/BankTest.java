@@ -55,7 +55,7 @@ public class BankTest {
 	 * @throws AccountDoesNotExistException
 	 */
 	@Test (expected = AccountExistsException.class )
-	public void testOpenAccount() throws AccountExistsException, AccountDoesNotExistException {//TODO
+	public void testOpenAccount() throws AccountExistsException, AccountDoesNotExistException {
 		/**
 		 * The test failed. Account "Alan" should already exist in Nordea Bank however no exception has been thrown,
 		 * which means that the method doesn't open accounts correctly
@@ -124,17 +124,23 @@ public class BankTest {
 		SweBank.transfer("Ulrika","Bob",new Money(2000,SweBank.getCurrency()));
 		assertEquals(1334,SweBank.getBalance("Ulrika"),0);
 		assertEquals(2000,SweBank.getBalance("Bob"),0);
+		/**
+		 * Test passed here, but it shouldn't be able to transfer money from the same account to the same. An error should be shown
+		 */
+		SweBank.transfer("Ulrika","Ulrika",new Money(2000,SweBank.getCurrency()));
+		/**
+		 * Test passed here, but it shouldn't be able to transfer 0 money between accounts. An error should be shown
+		 */
+		SweBank.transfer("Ulrika","Bob",new Money(0,SweBank.getCurrency()));
+
 	}
 
 	/**
 	 * Testing if method does the timed payment correctly
 	 * @throws AccountDoesNotExistException
 	 */
-	@Test
-	public void testTimedPayment() throws AccountDoesNotExistException {
-		/**
-		 * Test passed
-		 */
+	@Test (expected = AccountDoesNotExistException.class)
+	public void testTimedPayment() throws AccountDoesNotExistException{
 		SweBank.deposit("Ulrika",new Money(5000,SweBank.getCurrency()));
 
 		SweBank.addTimedPayment("Ulrika","0",1,4,new Money(2000,SweBank.getCurrency()),DanskeBank,"Gertrud");
@@ -154,5 +160,10 @@ public class BankTest {
 		assertEquals(-1000,SweBank.getBalance("Ulrika"),0);
 		assertEquals(4000,Nordea.getBalance("Bob"),0);
 		assertEquals(1500,DanskeBank.getBalance("Gertrud"),0);
+		/**
+		 * Test failed. the addTimedPayment should invoke an AccountDoesNotExistException because there is no account called "alan"
+		 */
+		SweBank.addTimedPayment("alan","2",1,4,new Money(2000,SweBank.getCurrency()),Nordea,"Bob");
+		SweBank.removeTimedPayment("alan","2");
 	}
 }
