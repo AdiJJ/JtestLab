@@ -131,8 +131,8 @@ public class Bank {
 		else if(accountlist.get(fromaccount)==accountlist.get(toaccount)){
 			System.err.println("Can't transfer money between two accounts that are the same");
 		}
-		else if(amount.getAmount()==0){
-			System.err.println("Can't transfer 0 money between accounts");
+		else if(amount.getAmount()<=0){
+			System.err.println("Can't transfer non-positive amount of money between accounts");
 		}
 		else {
 			accountlist.get(fromaccount).withdraw(amount);

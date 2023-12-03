@@ -132,6 +132,10 @@ public class BankTest {
 		 * Test passed here, but it shouldn't be able to transfer 0 money between accounts. An error should be shown
 		 */
 		SweBank.transfer("Ulrika","Bob",new Money(0,SweBank.getCurrency()));
+		/**
+		 * Test passed here, but it shouldn't be able to transfer less than 0 money between accounts. An error should be shown
+		 */
+		SweBank.transfer("Ulrika","Bob",new Money(-500,SweBank.getCurrency()));
 
 	}
 
