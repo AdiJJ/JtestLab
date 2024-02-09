@@ -1,0 +1,1 @@
+**JUnit framework** excercises, both creating tests based on already existing methods and creating methods based on the knowledge of what the test results should be. Moreover debugging any issues that exist in the code, signalled by any test failures.
